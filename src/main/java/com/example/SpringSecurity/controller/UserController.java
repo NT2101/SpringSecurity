@@ -1,6 +1,7 @@
 package com.example.SpringSecurity.controller;
 
 
+import com.example.SpringSecurity.dto.UserRequest;
 import com.example.SpringSecurity.entities.User;
 import com.example.SpringSecurity.exceptions.ResourceNotFoundException;
 import com.example.SpringSecurity.service.UserService;
@@ -45,9 +46,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody User userDetails) {
+    public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody UserRequest userRequest) {
         try {
-            User updatedUser = userService.updateUser(id, userDetails);
+            User updatedUser = userService.updateUser(id, userRequest);
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
