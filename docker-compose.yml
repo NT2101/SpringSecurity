@@ -1,0 +1,38 @@
+services:
+  java_app1:
+    image: openjdk:17
+    volumes:
+      - ./target/api-0.0.1-SNAPSHOT.jar:/app/api-0.0.1-SNAPSHOT.jar
+    command: ["java", "-jar", "/app/api-0.0.1-SNAPSHOT.jar"]
+    ports:
+      - "8081:8080"
+    stdin_open: true
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - mysql_network
+
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: User
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: 123
+    ports:
+      - "3309:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    networks:
+      - mysql_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+networks:
+  mysql_network:
