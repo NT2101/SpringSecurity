@@ -15,7 +15,7 @@ public class ConfigSwagger {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Pokemon Review API").version("1.0"))
+                .info(new Info().title("Spring Security").version("1.0"))
                 .components(new Components()
                         .addSecuritySchemes("bearer-jwt",
                                 new SecurityScheme()
